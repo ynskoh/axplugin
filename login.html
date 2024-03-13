@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AX Web Accessibility Diagnosis</title>
+<link rel="stylesheet"  href="style.css"/>
+<script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+
+<div class="AX-window">
+	<div class="AX-header">
+		<h1 class="AX-title">
+			<img src="images/logo.png" alt="AX logo">
+			<span>Web Accessibility Diagnosis</span>
+		</h1>
+	</div>
+
+	<div class="AX-login">
+		<h2 class="login_title">Sign In</h2> 
+		<form class="login_form">
+			<dl>
+				<dt><label for="loginId">ID</label></dt>
+				<dd>
+					<input id="loginId" class="input_text" type="text" placeholder="Email" />
+					<p class="validate_msg"></p>
+				</dd>
+				<dt><label for="loginPw">Password</label></dt>
+				<dd>
+					<input id="loginPw" class="input_text input_pw" class="" type="password" placeholder="Password" />
+					<p class="validate_msg"></p>
+				</dd>
+			</dl>
+			<div class="login_btn">
+				<button id="loginBtn" class="btn btn_red" type="button">Sign In</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="AX-footer">
+		<p>Copyright © 2024 4Grit. All rights reserved.</p>
+	</div>
+</div>
+
+<script type="text/javascript">
+	setSignInButtonEvent();
+</script>
+</body>
+</html>

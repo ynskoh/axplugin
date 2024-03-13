@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900);
+
+/* reset */
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,hr,table,th,td,form,fieldset,legend,input,textarea,button,select {margin:0; padding:0;}
+body,input,textarea,select,button,table {font-family: 'Roboto', 'Noto Sans KR'; font-size:13px; color:#444;}
+img,fieldset {border:0;}
+ul,ol,li {list-style:none;}
+em,address {font-style:normal;}
+a {text-decoration:none;}
+article,aside,dialog,footer,header,section,footer,nav,figure {display:block; margin:0; padding:0;} /* html5 tags */
+button {cursor:pointer;}
+strong {font-family:'NanumSquareBold';}
+/* Fire Fox button style bug */
+button::-moz-focus-inner {padding:0; border:0;}
+textarea:focus, input:focus{outline:none;}
+input[type="button"],
+input[type="submit"],
+button {-webkit-appearance:none; -moz-appearance:none;}
+a[href^="tel"]{color:inherit; text-decoration:none;}
+
+
+/* common  */
+.btn {width: 100%; display: block; box-sizing: border-box; padding: 10px 18px; font-size: 14px; font-weight:500; text-align: center; border-radius:60px; border: 0;}
+.btn_disabled {background: #d6d6d6; color: #fff;}
+.btn_red {background: #EC0047; color: #fff;}
+
+.radio_label input[type='radio'] {position: absolute; opacity: 0; pointer-events: none;}
+.radio_label .radio_item {display:inline-block; box-sizing: border-box; width:18px; height:18px; background:#fff; border: 2px solid #aaa; vertical-align:sub; margin-right:4px; border-radius:30px;}
+.radio_label input[type='radio']:checked + .radio_item {background:#EC0047; border: 2px solid #EC0047; box-shadow: inset 0 0 0 2px #fff;}
+.radio_label input[type='radio']:focus + .radio_item {border: 2px solid #333;}
+.radio_label .radio_text {font-weight:500;}
+.checkbox_label input[type='checkbox'] {position: absolute; opacity: 0; pointer-events: none;}
+.checkbox_label .checkbox_item {display:inline-block; box-sizing: border-box; width:18px; height:18px; background:#fff; border: 2px solid #aaa; vertical-align:sub; margin-right:4px; border-radius:2px;}
+.checkbox_label input[type='checkbox']:checked + .checkbox_item {background:url('images/checkbox.png') center center no-repeat; border: 0;}
+.checkbox_label input[type='checkbox']:focus + .checkbox_item {border: 2px solid #000;}
+.checkbox_label .checkbox_text {font-weight:500;}
+
+/* AX style */
+.AX-window {background:#fff; width:400px; border: 10px solid red;}
+.AX-header {position: relative; padding:30px;}
+.AX-title {font-size:13px; color:#444; font-weight:600;}
+.AX-title img {vertical-align:bottom;}
+.AX-title span {padding: 0 8px;}
+.AX-signout {position: absolute; top: 30px; right: 30px; box-sizing: border-box; min-width: 80px; padding:8px 18px; background: #fff; border: 1px solid #bbb; border-radius: 60px; color: #444; font-size: 13px; font-weight:600; text-align: center;}
+
+/* login  */
+.AX-login {padding:30px 70px;}
+.login_title {color: #555; font-size: 50px; line-height: 52px;}
+.login_form {min-height: 300px;}
+.login_form dt {padding:20px 0 5px; color: #767676; font-weight: 600;}
+.login_form dd {padding-bottom: 10px;}
+.input_text {width: 100%; box-sizing: border-box; padding: 9px 12px; font-size: 14px; border: 1px solid #bbb; border-radius: 5px;}
+.input_text::-webkit-input-placeholder {color: #bbb;}
+.input_text:-ms-input-placeholder {color: #bbb;}
+.input_text.input_pw {background: url('images/eye_pw.png') right 9px center no-repeat; padding-right: 30px}
+/*.input_text.input_pw:after {content: ''; position:absolute; width: 20px; height: 20px; absolute; top: 10px; right: 10px; background: url('images/eye_pw.png') no-repeat; background-size: 100%;}*/
+.validate_msg {padding: 0 5px;color: #E60724; font-size: 12px; font-weight: normal; line-height: 1.5;}
+.login_btn {padding: 20px 0;}
+.AX-footer {padding: 30px 0; text-align: center;}
+.AX-footer p {color: #666; font-size: 12px;}
+
+/* diagnosis  */
+.AX-diagnosis {border-top: 1px solid #D9D9D9; padding: 0 30px 30px;}
+.diagnosis_list {padding: 5px 0;}
+.diagnosis_list > li {padding: 20px 0;}
+.diagnosis_list .list_title {font-size: 15px; font-weight: 700; padding: 0 0 15px;}
+.radio_group .radio_label {display: inline-block; margin-right: 33px;}
+.radio_group .radio_label:last-child {margin-right: 0;}
+.text_single * {font-weight:700 !important; font-size: 15px !important;}
+.text_single {padding: 0 0 15px;}
+.text_area {padding: 12px; min-height: 80px; max-height: 100px; overflow-y: auto; border: 1px solid #bbb; border-radius: 5px; line-height: 1.5; font-size: 14px; font-weight: 400; font-family: 'Roboto', 'Noto Sans KR';}
+.text_area.area_disabled {background: #E6E6E6; border:1px solid #D7D7D7;}
+.group_select dl {display: flex; padding: 0 0 12px; align-items: baseline;}
+.group_select dt {width: 80px; font-weight:700; color: #767676}
+.group_select dd {flex: 1;}
+.select_wrap {position: relative;}
+
+.select_box {height: 40px; width: 100%; padding: 11px 30px 11px 11px; box-sizing: border-box; border: 1px solid #bbb; border-radius: 5px; background: #fff url('images/arrow_down.svg') right 11px center no-repeat; color: #2f2f2f; font-size: 14px; line-height: 1.3; vertical-align:middle; cursor:pointer;}
+.autoComplete_wrapper[aria-expanded='true'] input.select_box {padding-left: 30px; background: url('images/search_zoom.png') left 11px center no-repeat, url('images/arrow_up.svg') right 11px center no-repeat;}
+
+.select_wrap ul {z-index: 9; position: absolute; top: 36px; left: 0; width: 100%; box-sizing: border-box; border: 1px solid #bbb; border-top: 1px solid #d7d7d7; /*border-radius: 0 0 5px 5px; */background: #fff; max-height: 200px; overflow-y: auto;}
+.select_wrap li {padding:11px; line-height: 1.3; color: #2f2f2f; font-size: 14px;}
+.select_wrap li:hover,
+.select_wrap li:focus {background: #ebebeb;}
+.select_wrap .group_add {display:none; position: absolute; left: 0; bottom: -20px; z-index: 99; background:none; box-sizing: border-box; width: 100%; padding: 11px; box-shadow:  0 -1px 0 #d7d7d7; border: 1px solid #bbb; border-top:0; border-radius: 0 0 5px 5px; font-weight: 700; color: #767676; text-align: center;}
+
+/*.select_list {display: none; z-index: 9; position: absolute; top: 36px; left: 0; width: 100%; box-sizing: border-box; border: 1px solid #bbb; border-top: 1px solid #d7d7d7; border-radius: 0 0 5px 5px; background: #fff;}
+.select_list .group_add {background: none; box-sizing: border-box; width: 100%; padding: 11px; box-shadow:  0 -1px 0 #d7d7d7; border: 0; border-radius: 0 0 5px 5px; font-weight: 700; color: #767676; text-align: center;}
+.select_list .group_add:after {content: ''; display: inline-block; width: 16px; height: 16px; margin-left: 5px; background: url('images/plus_grey.svg') no-repeat; vertical-align: sub;}
+.select_list .group_add:hover {color: #444;}
+.select_list .group_add:hover:after {background: url('images/plus_black.svg') no-repeat;}
+.select_active .select_list {display: block;}
+.select_active .select_box {background: url('images/arrow_up.svg') right 11px center no-repeat;}
+.total_validate {text-align: center; margin-bottom: 20px;}
+*/
+/* complete  */
+.AX-complete {padding: 30px;}
+.AX-complete .complete_icon {display: block; width:50px; height: 50px; margin: 30px auto 0; background: url('images/check.png') 100% 100% no-repeat;}
+.AX-complete p {text-align: center; font-size: 15px; line-height: 1.5;}
+.AX-complete .complete_text {padding: 15px 0 20px; text-align: center; font-size: 28px; color: #555; font-weight: 500;}
+.AX-complete .complete_btn {padding-top: 150px;}
