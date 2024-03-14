@@ -68,13 +68,7 @@
 					<dd>
 						<div class="select_wrap">
 							<input type="text" id="groupCombo1" class="select_box" />
-							<button class="group_add">새그룹</button>
-							<!-- <div class="select_list">
-								<ul role="listbox">
-								</ul>
-								<button class="group_add">새그룹</button>
-							</div>
-							<p class="validate_msg"></p> -->
+							<input type="text" id="newGroup1" class="select_new" />
 						</div>
 					</dd>
 				</dl>
@@ -83,13 +77,7 @@
 					<dd>
 						<div class="select_wrap">
 							<input type="text" id="groupCombo2" class="select_box" />
-							<button class="group_add">새그룹</button>
-							<!-- <div class="select_list">
-								<ul role="listbox">
-								</ul>
-								<button class="group_add">새그룹</button>
-							</div>
-							<p class="validate_msg"></p> -->
+							<input type="text" id="newGroup2" class="select_new" />
 						</div>
 					</dd>
 				</dl>
@@ -98,13 +86,7 @@
 					<dd>
 						<div class="select_wrap">
 							<input type="text" id="groupCombo3" class="select_box" />
-							<button class="group_add">새그룹</button>
-							<!-- <div class="select_list">
-								<ul role="listbox">
-								</ul>
-								<button class="group_add">새그룹</button>
-							</div>
-							<p class="validate_msg"></p> -->
+							<input type="text" id="newGroup3" class="select_new" />
 						</div>
 					</dd>
 				</dl>
@@ -123,6 +105,7 @@
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded",function(){
 	initAutoCompleteGroup();
+	setNewGroupInputHandler();
 })
 
 </script>

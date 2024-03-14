@@ -1,12 +1,8 @@
-document.addEventListener("DOMContentLoaded",function(){
-	
-	// setSignInButtonEvent();
+// document.addEventListener("DOMContentLoaded",function(){
+	// setSignInButtonHandler();
 	// setGroupSelect();
 	// initAutoCompleteGroup()
-
-
-})
-
+// })
 
 
 // 로그인 유효성 확인
@@ -50,7 +46,7 @@ function setSignFormValidate() {
 }
 
 // 로그인 버튼 이벤트
-function setSignInButtonEvent() {
+function setSignInButtonHandler() {
 	const btn = document.getElementById("loginBtn");
 	if(btn) {
 		btn.addEventListener("click", () => {
@@ -74,19 +70,42 @@ function bindValidateMsg(form, text) {
 
 // autocomplete 자동완성 실행
 function initAutoCompleteGroup() {
+	const btnGroup = document.createElement("button");
+	btnGroup.classList.add("group_add");
+	btnGroup.textContent = "새그룹";
+	btnGroup.addEventListener("click", (event) => {
+		const btn = event.currentTarget;
+		const wrap = btn.closest('.select_wrap');
+		wrap.classList.add("new_wrap");
+		const newInput = wrap.querySelector('.select_new');
+		newInput.focus();
+	});
 
+	// 그룹1 자동완성 검색 옵션
 	const config1 = {
 		selector: "#groupCombo1",
 		placeHolder: "선택",
+		wrapper: true,
 		data: {
 			src: ["1차그룹111", "1차그룹222", "1차그룹333","1차그룹444", "1차그룹555", "1차그룹666"],
 			cache: true,
 		},
 		trigger: (query) => { return true },
 		resultsList: {
+			tag: "div",
 			noResults: true,
 			maxResults: 20,
-			tabSelect: true
+			tabSelect: true,
+			element: (list, data) => {
+				list.classList.add('select_list');
+				list.appendChild(btnGroup);
+			},
+		},
+		resultItem: {
+			tag: "div",
+			element: (item, data) => {
+				item.classList.add('select_option');
+			},
 		},
 		events: {
 			input: {
@@ -99,7 +118,7 @@ function initAutoCompleteGroup() {
 	}
 
 
-
+	// 그룹2 자동완성 검색 옵션
 	const config2 = {
 		selector: "#groupCombo2",
 		placeHolder: "선택",
@@ -108,21 +127,31 @@ function initAutoCompleteGroup() {
 		},
 		trigger: (query) => { return true },
 		resultsList: {
+			tag: "div",
 			noResults: true,
 			maxResults: 20,
-			tabSelect: true
+			tabSelect: true,
+			element: (list, data) => {
+				list.classList.add('select_list');
+				list.appendChild(btnGroup);
+			},
+		},
+		resultItem: {
+			tag: "div",
+			element: (item, data) => {
+				item.classList.add('select_option');
+			},
 		},
 		events: {
 			input: {
 				focus: () => {
-					autoCompleteJS2.start();
+					autoCompleteJS2.start()
 				}
 			}
 		},
-		trigger: (query) => { return true }
 	}
 
-
+	// 그룹3 자동완성 검색 옵션
 	const config3 = {
 		selector: "#groupCombo3",
 		placeHolder: "선택",
@@ -131,17 +160,28 @@ function initAutoCompleteGroup() {
 		},
 		trigger: (query) => { return true },
 		resultsList: {
+			tag: "div",
 			noResults: true,
 			maxResults: 20,
-			tabSelect: true
+			tabSelect: true,
+			element: (list, data) => {
+				list.classList.add('select_list');
+				list.appendChild(btnGroup);
+			},
+		},
+		resultItem: {
+			tag: "div",
+			element: (item, data) => {
+				item.classList.add('select_option');
+			},
 		},
 		events: {
 			input: {
 				focus: () => {
-					autoCompleteJS3.start();
+					autoCompleteJS3.start()
 				}
 			}
-		}
+		},
 	}
 
 	const autoCompleteJS1 = new autoComplete(config1);
@@ -168,8 +208,63 @@ function initAutoCompleteGroup() {
 		const selection = feedback.selection.value;
 		autoCompleteJS3.input.value = selection;
 	});
+
 }
 
+
+// 새그룹 이벤트 리스너
+function setNewGroupInputHandler() {
+	const newInputs = document.querySelectorAll(".select_new");
+
+	newInputs.forEach(newInput => {
+		newInput.addEventListener("blur", (event) => {	// 새그룹 작성 중 다른 포커스 아웃 (취소)
+			newGroupCancelEvent(event);
+		});
+
+		newInput.addEventListener("keydown", (event) => {
+			if (event.key === 'Escape' || event.keyCode === 27) {	// 새그룹 작성 중 esc 키 입력 (취소)
+				newGroupCancelEvent(event);
+			}
+
+			if (event.key === 'Enter' || event.keyCode === 13) {	// 새그룹 작성 후 enter 키 입력 (추가하기)
+				const newName = newInput.value;
+				if(validateNewGroup(newName)) newGroupSubmitEvent(newName);
+			}
+		})
+	})
+}
+
+
+
+
+// 새 그룹이름 유효성 검사
+function validateNewGroup(name) {
+	if(name === "") {
+		return false;
+	}
+	return true;
+}
+
+// 새 그룹 취소
+function newGroupCancelEvent(event) {
+	const thisInput = event.target;
+	const wrap = thisInput.closest('.select_wrap');
+	const autoInput = wrap.querySelector(".select_box");
+	thisInput.value = "";
+	autoInput.value = "";
+	console.log('canceled');
+	wrap.classList.remove("new_wrap");
+	event.stopPropagation();
+}
+
+// 새 그룹 추가
+function newGroupSubmitEvent(name){
+	console.log(name);
+	const check = confirm("["+name+"] 그룹을 새롭게 추가하시겠습니까?");
+	if(check) { // 추가하기
+		alert("추가완료")
+	}
+}
 
 
 
