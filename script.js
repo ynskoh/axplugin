@@ -1,9 +1,10 @@
-// document.addEventListener("DOMContentLoaded",function(){
+/*
+document.addEventListener("DOMContentLoaded",function(){
 	// setSignInButtonHandler();
 	// setGroupSelect();
 	// initAutoCompleteGroup()
-// })
-
+})
+*/
 
 // 로그인 유효성 확인
 function setSignFormValidate() {
@@ -70,6 +71,7 @@ function bindValidateMsg(form, text) {
 
 // autocomplete 자동완성 실행
 function initAutoCompleteGroup() {
+
 	const btnGroup = document.createElement("button");
 	btnGroup.classList.add("group_add");
 	btnGroup.textContent = "새그룹";
@@ -80,6 +82,19 @@ function initAutoCompleteGroup() {
 		const newInput = wrap.querySelector('.select_new');
 		newInput.focus();
 	});
+
+	/*
+	// fetch통해 받아온 그룹1 데이터 -> data1
+	const data1 = dummyData;
+
+	// fetch통해 받아온 그룹2 데이터 -> data2
+	const data2 = dummyData;
+
+	// fetch통해 받아온 그룹3 데이터 -> data3
+	const data3 = dummyData;
+	*/
+
+
 
 	// 그룹1 자동완성 검색 옵션
 	const config1 = {
@@ -212,6 +227,40 @@ function initAutoCompleteGroup() {
 }
 
 
+// group  가져오기
+async function getGroups(param){
+
+	const url = 'https://staging-ax.beusable.net/api/dashboard/lnb/getLnbAll';
+	let result = {};
+
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(param)
+	});
+	/*	// dummy data 출력 주석처리
+	if (!response.ok) {
+		throw new Error('네트워크 응답이 올바르지 않습니다');
+	}
+	const responseData = await response.json();
+	return responseData;
+	*/
+	
+	// return dummyData;
+
+}
+
+
+// group 데이터 그룹별 출력
+function setGroupData(group) {
+	const groupData = getGroups();
+	console.log(groupData);
+}
+
+
+
 // 새그룹 이벤트 리스너
 function setNewGroupInputHandler() {
 	const newInputs = document.querySelectorAll(".select_new");
@@ -252,14 +301,12 @@ function newGroupCancelEvent(event) {
 	const autoInput = wrap.querySelector(".select_box");
 	thisInput.value = "";
 	autoInput.value = "";
-	console.log('canceled');
 	wrap.classList.remove("new_wrap");
 	event.stopPropagation();
 }
 
 // 새 그룹 추가
 function newGroupSubmitEvent(name){
-	console.log(name);
 	const check = confirm("["+name+"] 그룹을 새롭게 추가하시겠습니까?");
 	if(check) { // 추가하기
 		alert("추가완료")
@@ -267,6 +314,37 @@ function newGroupSubmitEvent(name){
 }
 
 
+
+
+
+// 진단 제외 요소 체크 박스 이벤트
+function setCheckDisableHandler() {
+	const checkBoxes = document.querySelectorAll(".checkForm");
+	if(!checkBoxes.length) {
+		return false;
+	}
+	checkBoxes.forEach(checkBox => {
+
+		checkBox.addEventListener('change', function() {
+			const formId = checkBox.getAttribute("data-control");
+			const checkForm = document.getElementById(formId);
+			if(!checkForm) return false;
+			if (checkBox.checked) {
+				checkForm.disabled = false;
+			} else {
+				checkForm.disabled = true;
+			}
+		})
+
+	})
+}
+
+
+
+
+
+
+// console.log(dummyData)
 
 /*
 function setGroupSelect() {
@@ -335,3 +413,4 @@ function comboEventHandler(combo ,list) {
 		
 
 }*/
+

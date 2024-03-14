@@ -6,6 +6,7 @@
 <title>AX Web Accessibility Diagnosis</title>
 <link rel="stylesheet"  href="style.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+<script type="text/javascript" src="dummy.js"></script>
 <script type="text/javascript" src="script.js"></script>
 </script>
 </head>
@@ -44,22 +45,22 @@
 			<li>
 				<div class="checkbox_label text_single">
 					<label>
-						<input type="checkbox" name="type" />
+						<input type="checkbox" name="except" class="checkForm" data-control="exceptForm" checked />
 						<span class="checkbox_item"></span>
 						<span class="checkbox_text">제외할 요소</span>
 					</label>
 				</div>
-				<div class="text_area">#header, #typeAheadDomain, #scene7domain, #reviewUseYN, #reevooUseYN, #bvFlag, #frontApiStageInfo, #gnbRunmodeInfo, #GNB, #reviewUseYN, #reevooUseYN, #bvFlag,</div>
+				<textarea id="exceptForm" class="text_area">#header, #typeAheadDomain, #scene7domain, #reviewUseYN, #reevooUseYN, #bvFlag, #frontApiStageInfo, #gnbRunmodeInfo, #GNB, #reviewUseYN, #reevooUseYN, #bvFlag,</textarea>
 			</li>
 			<li>
 				<div class="checkbox_label text_single">
 					<label>
-						<input type="checkbox" name="type" />
+						<input type="checkbox" name="accept" class="checkForm" data-control="acceptForm" />
 						<span class="checkbox_item" tabindex="0"></span>
 						<span class="checkbox_text">진단할 요소</span>
 					</label>
 				</div>
-				<div class="text_area area_disabled"></div>
+				<textarea id="acceptForm" class="text_area" disabled></textarea>
 			</li>
 			<li class="group_select">
 				<div class="list_title">그룹</div>
@@ -104,8 +105,9 @@
 
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded",function(){
-	initAutoCompleteGroup();
+	// initAutoCompleteGroup();
 	setNewGroupInputHandler();
+	setCheckDisableHandler();
 })
 
 </script>
