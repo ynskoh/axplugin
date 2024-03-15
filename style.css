@@ -84,9 +84,10 @@ body, html {background-color: transparent;}
 .select_new {height: 40px; width: 100%; padding: 11px 30px 11px 11px; box-sizing: border-box; border: 1px solid #bbb; border-radius: 5px; color: #2f2f2f; font-size: 14px; line-height: 1.3; vertical-align:middle;}
 .select_box {background: #fff url('images/arrow_down.svg') right 11px center no-repeat; cursor:pointer;}
 .select_new {display:none; background: #fff;}
-
 .new_wrap .select_new {display:block;}
 .new_wrap .select_box {display:none;}
+
+.select_box:disabled {background-color:#f3f3f3; cursor:default}
 
 .autoComplete_wrapper[aria-expanded='true'] input.select_box {padding-left: 30px; background: url('images/search_zoom.png') left 11px center no-repeat, url('images/arrow_up.svg') right 11px center no-repeat;}
 

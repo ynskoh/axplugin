@@ -22,92 +22,119 @@
 	</div>
 
 	<div class="AX-diagnosis">
-		<ul class="diagnosis_list">
-			<li>
-				<div class="list_title">진단 유형</div>
-				<div class="radio_group">
-					<div class="radio_label">
+		<form id="diagnosisForm">
+			<input id="gSeq1" name="gSeq1" type="hidden">
+			<input id="gSeq2" name="gSeq2" type="hidden">
+			<input id="gSeq3" name="gSeq3" type="hidden">
+			<ul class="diagnosis_list">
+				<li>
+					<div class="list_title">진단 유형</div>
+					<div class="radio_group">
+						<div class="radio_label">
+							<label>
+								<input type="radio" name="type" />
+								<span class="radio_item"></span>
+								<span class="radio_text">Authoring</span>
+							</label>
+						</div>
+						<div class="radio_label">
+							<label>
+								<input type="radio" name="type" />
+								<span class="radio_item"></span>
+								<span class="radio_text">Rawcode</span>
+							</label>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="checkbox_label text_single">
 						<label>
-							<input type="radio" name="type" />
-							<span class="radio_item"></span>
-							<span class="radio_text">Authoring</span>
+							<input type="checkbox" name="except" class="checkForm" data-control="exceptForm" checked />
+							<span class="checkbox_item"></span>
+							<span class="checkbox_text">제외할 요소</span>
 						</label>
 					</div>
-					<div class="radio_label">
+					<textarea id="exceptForm" name="exceptForm" class="text_area">#header, #typeAheadDomain, #scene7domain, #reviewUseYN, #reevooUseYN, #bvFlag, #frontApiStageInfo, #gnbRunmodeInfo, #GNB, #reviewUseYN, #reevooUseYN, #bvFlag,</textarea>
+				</li>
+				<li>
+					<div class="checkbox_label text_single">
 						<label>
-							<input type="radio" name="type" />
-							<span class="radio_item"></span>
-							<span class="radio_text">Rawcode</span>
+							<input type="checkbox" name="accept" class="checkForm" data-control="acceptForm" />
+							<span class="checkbox_item" tabindex="0"></span>
+							<span class="checkbox_text">진단할 요소</span>
 						</label>
 					</div>
-				</div>
-			</li>
-			<li>
-				<div class="checkbox_label text_single">
-					<label>
-						<input type="checkbox" name="except" class="checkForm" data-control="exceptForm" checked />
-						<span class="checkbox_item"></span>
-						<span class="checkbox_text">제외할 요소</span>
-					</label>
-				</div>
-				<textarea id="exceptForm" class="text_area">#header, #typeAheadDomain, #scene7domain, #reviewUseYN, #reevooUseYN, #bvFlag, #frontApiStageInfo, #gnbRunmodeInfo, #GNB, #reviewUseYN, #reevooUseYN, #bvFlag,</textarea>
-			</li>
-			<li>
-				<div class="checkbox_label text_single">
-					<label>
-						<input type="checkbox" name="accept" class="checkForm" data-control="acceptForm" />
-						<span class="checkbox_item" tabindex="0"></span>
-						<span class="checkbox_text">진단할 요소</span>
-					</label>
-				</div>
-				<textarea id="acceptForm" class="text_area" disabled></textarea>
-			</li>
-			<li class="group_select">
-				<div class="list_title">그룹</div>
-				<dl>
-					<dt>1차 그룹</dt>
-					<dd>
-						<div class="select_wrap">
-							<input type="text" id="groupCombo1" class="select_box" />
-							<input type="text" id="newGroup1" class="select_new" />
-						</div>
-					</dd>
-				</dl>
-				<dl>
-					<dt>2차 그룹</dt>
-					<dd>
-						<div class="select_wrap">
-							<input type="text" id="groupCombo2" class="select_box" />
-							<input type="text" id="newGroup2" class="select_new" />
-						</div>
-					</dd>
-				</dl>
-				<dl>
-					<dt>검수제목</dt>
-					<dd>
-						<div class="select_wrap">
-							<input type="text" id="groupCombo3" class="select_box" />
-							<input type="text" id="newGroup3" class="select_new" />
-						</div>
-					</dd>
-				</dl>
-			</li>
-		</ul>
-		<div class="total_validate">
-			<p class="validate_msg"></p>
-		</div>
+					<textarea id="acceptForm" name="acceptForm" class="text_area" disabled></textarea>
+				</li>
+				<li class="group_select">
+					<div class="list_title">그룹</div>
+					<dl>
+						<dt>1차 그룹</dt>
+						<dd>
+							<div class="select_wrap">
+								<input type="text" id="groupCombo1" class="select_box" />
+								<input type="text" id="newGroup1" class="select_new" />
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>2차 그룹</dt>
+						<dd>
+							<div class="select_wrap">
+								<input type="text" id="groupCombo2" class="select_box" disabled />
+								<input type="text" id="newGroup2" class="select_new" />
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dt>검수제목</dt>
+						<dd>
+							<div class="select_wrap">
+								<input type="text" id="groupCombo3" class="select_box" disabled />
+								<input type="text" id="newGroup3" class="select_new" />
+							</div>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+			<div class="total_validate">
+				<p class="validate_msg"></p>
+			</div>
 
-		<div class="diagnosis_btn">
-			<button class="btn btn_red">START</button>
-		</div>
+			<div class="diagnosis_btn">
+				<button type="button" id="formSubmit" class="btn btn_red">START</button>
+			</div>
+		</form>
 	</div>
 </div>
 
 <script type="text/javascript">
-document.addEventListener("DOMContentLoaded",function(){
-	// initAutoCompleteGroup();
+
+// 그룹데이터 전역변수
+let groupData = [];
+
+document.addEventListener("DOMContentLoaded", async function(){
+	
+	// fetch 요청 dummy 데이터 (삭제예정)
+	const reqParam = {
+		userId : 9
+	}
+	// 
+
+	await fetchGroupData(reqParam);
+
 	setNewGroupInputHandler();
 	setCheckDisableHandler();
+	setStartBtnHandler();
+
+	// 최초 group1 자동완성 인자
+	const g1Req = {
+		comboId : "#groupCombo1",
+		gNum : 1,
+	}
+
+	setAutoComplete(g1Req, groupData);
+
 })
 
 </script>

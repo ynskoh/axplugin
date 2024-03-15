@@ -1,9 +1,23 @@
-/*
 document.addEventListener("DOMContentLoaded",function(){
 	// setSignInButtonHandler();
 	// setGroupSelect();
 	// initAutoCompleteGroup()
 })
+
+
+
+/*
+common
+*/
+// 폼 오류 메세지 출력
+function bindValidateMsg(form, text) {
+	const msger = form.nextElementSibling?.classList.contains('validate_msg') ? form.nextElementSibling : null;
+	if(msger) msger.textContent = text;
+}
+
+
+/*
+login form page
 */
 
 // 로그인 유효성 확인
@@ -61,49 +75,24 @@ function setSignInButtonHandler() {
 	}
 }
 
-// 오류 메세지 출력
-function bindValidateMsg(form, text) {
-	const msger = form.nextElementSibling?.classList.contains('validate_msg') ? form.nextElementSibling : null;
-	if(msger) msger.textContent = text;
-}
 
-
-
-// autocomplete 자동완성 실행
-function initAutoCompleteGroup() {
-
-	const btnGroup = document.createElement("button");
-	btnGroup.classList.add("group_add");
-	btnGroup.textContent = "새그룹";
-	btnGroup.addEventListener("click", (event) => {
-		const btn = event.currentTarget;
-		const wrap = btn.closest('.select_wrap');
-		wrap.classList.add("new_wrap");
-		const newInput = wrap.querySelector('.select_new');
-		newInput.focus();
-	});
-
-	/*
-	// fetch통해 받아온 그룹1 데이터 -> data1
-	const data1 = dummyData;
-
-	// fetch통해 받아온 그룹2 데이터 -> data2
-	const data2 = dummyData;
-
-	// fetch통해 받아온 그룹3 데이터 -> data3
-	const data3 = dummyData;
-	*/
-
-
-
-	// 그룹1 자동완성 검색 옵션
-	const config1 = {
-		selector: "#groupCombo1",
+/*
+diagnosis form page
+*/
+// 자동완성 실행
+function setAutoComplete(req, data) {
+	const newGroupBtn = createNewGroupBtn(req.gNum);
+	const mapGroup = mapGroupData(req, data);
+	// const comboArr = mapGroup.map(item => item.name);
+	// console.log(req);
+	
+	const config = {
+		selector: req.comboId,
 		placeHolder: "선택",
 		wrapper: true,
 		data: {
-			src: ["1차그룹111", "1차그룹222", "1차그룹333","1차그룹444", "1차그룹555", "1차그룹666"],
-			cache: true,
+			src: mapGroup,
+			keys: ["name"],
 		},
 		trigger: (query) => { return true },
 		resultsList: {
@@ -113,7 +102,7 @@ function initAutoCompleteGroup() {
 			tabSelect: true,
 			element: (list, data) => {
 				list.classList.add('select_list');
-				list.appendChild(btnGroup);
+				list.appendChild(newGroupBtn);
 			},
 		},
 		resultItem: {
@@ -125,140 +114,149 @@ function initAutoCompleteGroup() {
 		events: {
 			input: {
 				focus: () => {
-					autoCompleteJS1.start()
+					autoCompleteJS.start()
 				}
 			}
 		},
 
 	}
 
-
-	// 그룹2 자동완성 검색 옵션
-	const config2 = {
-		selector: "#groupCombo2",
-		placeHolder: "선택",
-		data: {
-			src: ["2차그룹111", "2차그룹222", "2차그룹333"]
-		},
-		trigger: (query) => { return true },
-		resultsList: {
-			tag: "div",
-			noResults: true,
-			maxResults: 20,
-			tabSelect: true,
-			element: (list, data) => {
-				list.classList.add('select_list');
-				list.appendChild(btnGroup);
-			},
-		},
-		resultItem: {
-			tag: "div",
-			element: (item, data) => {
-				item.classList.add('select_option');
-			},
-		},
-		events: {
-			input: {
-				focus: () => {
-					autoCompleteJS2.start()
-				}
+	const autoCompleteJS = new autoComplete(config);
+	
+	autoCompleteJS.input.addEventListener("selection", function (event) {
+		const feedback = event.detail;
+		const group2 = document.getElementById("groupCombo2");
+		const group3 = document.getElementById("groupCombo3");
+		const group1Seq = document.getElementById("gSeq1");
+		const group2Seq = document.getElementById("gSeq2");
+		const group3Seq = document.getElementById("gSeq3");
+		// console.log(feedback.selection);
+		if(req.gNum && req.gNum != 3) {
+			const comboId = req.gNum == 1 ? "#groupCombo2" : "#groupCombo3";
+			const reqData = {
+				comboId : comboId,
+				gNum : req.gNum + 1,
+				g1Seq : feedback.selection.value.g1Seq,
+				g2Seq : feedback.selection.value.g2Seq ? feedback.selection.value.g2Seq : '',
 			}
-		},
-	}
 
-	// 그룹3 자동완성 검색 옵션
-	const config3 = {
-		selector: "#groupCombo3",
-		placeHolder: "선택",
-		data: {
-			src: ["검수제목11", "검수제목22", "검수제목33","검수제목44", "검수제목55", "검수제목66"],
-		},
-		trigger: (query) => { return true },
-		resultsList: {
-			tag: "div",
-			noResults: true,
-			maxResults: 20,
-			tabSelect: true,
-			element: (list, data) => {
-				list.classList.add('select_list');
-				list.appendChild(btnGroup);
-			},
-		},
-		resultItem: {
-			tag: "div",
-			element: (item, data) => {
-				item.classList.add('select_option');
-			},
-		},
-		events: {
-			input: {
-				focus: () => {
-					autoCompleteJS3.start()
-				}
+			setAutoComplete(reqData, data);
+
+			if(req.gNum == 1) {
+				group2.disabled = false;
+				group3.disabled = true;
+				group2.value = '';
+				group3.value = '';
+				group2Seq.value = '';
+				group3Seq.value = '';
+				group1Seq.value = feedback.selection.value.g1Seq;
 			}
-		},
-	}
+			if(req.gNum == 2) {
+				group3.disabled = false;
+				group3.value = '';
+				group3Seq.value = '';
+				group2Seq.value = feedback.selection.value.g2Seq;
+			}
+		}
 
-	const autoCompleteJS1 = new autoComplete(config1);
-	const autoCompleteJS2 = new autoComplete(config2);
-	const autoCompleteJS3 = new autoComplete(config3);
-
-	autoCompleteJS1.input.addEventListener("selection", function (event) {
-		const feedback = event.detail;
-		autoCompleteJS1.input.blur();
-		const selection = feedback.selection.value;
-		autoCompleteJS1.input.value = selection;
+		if(req.gNum == 3) {
+			group3Seq.value = feedback.selection.value.g3Seq;
+		}
+		
+		autoCompleteJS.input.blur();
+		const selection = feedback.selection.match;
+		autoCompleteJS.input.value = selection;
 	});
-
-	autoCompleteJS2.input.addEventListener("selection", function (event) {
-		const feedback = event.detail;
-		autoCompleteJS2.input.blur();
-		const selection = feedback.selection.value;
-		autoCompleteJS2.input.value = selection;
-	});
-
-	autoCompleteJS3.input.addEventListener("selection", function (event) {
-		const feedback = event.detail;
-		autoCompleteJS3.input.blur();
-		const selection = feedback.selection.value;
-		autoCompleteJS3.input.value = selection;
-	});
-
 }
 
 
-// group  가져오기
-async function getGroups(param){
+
+// group api 데이터 가져오기
+async function fetchGroupData(param) {
 
 	const url = 'https://staging-ax.beusable.net/api/dashboard/lnb/getLnbAll';
-	let result = {};
+	// let result = {};
 
-	const response = await fetch(url, {
+	/*
+	const response = fetch(url, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(param)
 	});
-	/*	// dummy data 출력 주석처리
+		// dummy data 출력 주석처리
 	if (!response.ok) {
 		throw new Error('네트워크 응답이 올바르지 않습니다');
 	}
-	const responseData = await response.json();
-	return responseData;
+	// const responseData = await response.json();
+	groupData = await response.json(); // 전역변수 groupData 에 fetch 데이터 삽입
 	*/
-	
-	// return dummyData;
 
+	groupData = dummyData; // 삭제 예정
 }
 
 
-// group 데이터 그룹별 출력
-function setGroupData(group) {
-	const groupData = getGroups();
-	console.log(groupData);
+// 자동완성용 group 데이터로 가공 처리
+function mapGroupData(req, data) {
+	let result = data;
+	if(req.gNum === 1) {
+		result = result[0].g1.map(item => {
+			return {name: item.g1_title, g1Seq: item.g1Seq}
+		});
+	}
+	if(req.gNum === 2) {
+		const g1Data = result[0].g1.find(item => item.g1Seq === req.g1Seq);
+		result = g1Data.g2.map(item => {
+			return {name: item.g2_title, g1Seq: g1Data.g1Seq, g2Seq: item.g2Seq}
+		});
+	}
+	if(req.gNum === 3) {
+		const g1Data = result[0].g1.find(item => item.g1Seq === req.g1Seq);
+		const g2Data = g1Data.g2.find(item => item.g2Seq === req.g2Seq);
+		result = g2Data.g3.map(item => {
+			return {name: item.g3_title, g1Seq: g1Data.g1Seq, g2Seq: g2Data.g1Seq, g3Seq: item.g3Seq}
+		});
+	}
+	// console.log(result);
+	return result;
 }
 
+
+// 새그룹 버튼 생성
+function createNewGroupBtn(gNum) {
+	const btn = document.createElement("button");
+	btn.setAttribute("type", "button");
+	btn.classList.add("group_add");
+	btn.textContent = "새그룹";
+	btn.addEventListener("click", (event) => {
+		const btn = event.currentTarget;
+		const wrap = btn.closest('.select_wrap');
+		wrap.classList.add("new_wrap");
+		const newInput = wrap.querySelector('.select_new');
+		newInput.focus();
+
+		const group2 = document.getElementById("groupCombo2");
+		const group3 = document.getElementById("groupCombo3");
+		const group2Seq = document.getElementById("gSeq2");
+		const group3Seq = document.getElementById("gSeq3");
+
+		if(gNum == 1) {
+			group2.disabled = true;
+			group3.disabled = true;
+			group2.value = '';
+			group3.value = '';
+			group2Seq.value = '';
+			group3Seq.value = '';
+		}
+		if(gNum == 2) {
+			group3.disabled = true;
+			group3.value = '';
+			group3Seq.value = '';
+		}
+	});
+	return btn;
+}
 
 
 // 새그룹 이벤트 리스너
@@ -277,16 +275,18 @@ function setNewGroupInputHandler() {
 
 			if (event.key === 'Enter' || event.keyCode === 13) {	// 새그룹 작성 후 enter 키 입력 (추가하기)
 				const newName = newInput.value;
-				if(validateNewGroup(newName)) newGroupSubmitEvent(newName);
+				if(validateNewGroup(newName)) {
+					newGroupSubmitEvent(newName, event);
+				} else {
+					alert("그룹명이 잘못됐습니다.")
+				}
 			}
 		})
 	})
 }
 
 
-
-
-// 새 그룹이름 유효성 검사
+// 새그룹 이름 유효성 검사
 function validateNewGroup(name) {
 	if(name === "") {
 		return false;
@@ -305,7 +305,7 @@ function newGroupCancelEvent(event) {
 	event.stopPropagation();
 }
 
-// 새 그룹 추가
+// 새 그룹 추가 처리
 function newGroupSubmitEvent(name){
 	const check = confirm("["+name+"] 그룹을 새롭게 추가하시겠습니까?");
 	if(check) { // 추가하기
@@ -314,10 +314,7 @@ function newGroupSubmitEvent(name){
 }
 
 
-
-
-
-// 진단 제외 요소 체크 박스 이벤트
+// 진단 제외/진단할 요소 체크 박스 이벤트
 function setCheckDisableHandler() {
 	const checkBoxes = document.querySelectorAll(".checkForm");
 	if(!checkBoxes.length) {
@@ -339,78 +336,22 @@ function setCheckDisableHandler() {
 	})
 }
 
+// 진단 start 버튼 이벤트
+function setStartBtnHandler() {
+	const submitBtn = document.getElementById("formSubmit");
+	submitBtn.addEventListener("click", () => {
+		const form = document.getElementById("diagnosisForm");
 
-
-
-
-
-// console.log(dummyData)
-
-/*
-function setGroupSelect() {
-	const combos = document.querySelectorAll(".select_wrap");
-	if(combos.length) {
-		combos.forEach(combo => {
-			setComboEvent(combo);
-		})	
-	}
-	
-}
-
-
-function setComboEvent(combo) {
-	const box = combo.querySelector(".select_box");
-	const list = combo.querySelector(".select_list");
-
-	if(box && list) {
-
-		const listWrap = list.querySelector("ul");
-		box.setAttribute('tabindex','0')
-
-		box.addEventListener("keypress", (event) => {
-			console.log(event);
-			if (event.key === 'Enter' || event.keyCode === 13 || event.keyCode === 32) {
-				comboEventHandler(combo ,list);
-			}
-		})
-
-		box.addEventListener("click", () => {
-			comboEventHandler(combo ,list);
-		})
-
-		document.body.addEventListener('click', event => {
-			if (!list.contains(event.target) && event.target !== box) {
-		        combo.classList.remove('select_active');
-		    }
-		});
-	}
-	
-}
-
-
-function comboEventHandler(combo ,list) {
-	
-	const listWrap = list.querySelector("ul");
-	combo.classList.toggle('select_active');
-
-	if(!combo.classList.contains('data-load')) {
-
-		// api 호출로 목록 호출 데이터
-		const groupList = ['group1', 'group2', 'group3', 'group4444']; // dummy data
-
-		if(groupList.length) {
-			
-			groupList.forEach(data => {
-				const listElement = document.createElement('li');
-				listElement.classList.add('select_option');
-				listElement.setAttribute('role', 'option');
-				listElement.innerText = data;
-				listWrap.appendChild(listElement);
-			})
+		const formData = new FormData(form);
+		const jsonObject = {};
+		for (const [key, value] of formData.entries()) {
+			jsonObject[key] = value;
 		}
-		combo.classList.add('data-load');	
-	}
-		
+		const jsonString = JSON.stringify(jsonObject);
 
-}*/
-
+		// 진단 start 버튼 이벤트 처리
+		console.log(jsonObject)
+		console.log(jsonString)
+		console.log("diagnosis start");
+	})
+}
